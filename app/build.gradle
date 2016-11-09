@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+def dep = rootProject.ext.dependencies
+def androidversion=rootProject.ext.android
+
+android {
+    compileSdkVersion androidversion.compileSdkVersion
+    buildToolsVersion androidversion.buildToolsVersion
+    defaultConfig {
+        applicationId androidversion.applicationId
+        minSdkVersion androidversion.minSdkVersion
+        targetSdkVersion androidversion.targetSdkVersion
+        versionCode androidversion.versionCode
+        versionName androidversion.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile dep.appcompat_v7
+    compile dep.design
+
+    testCompile 'junit:junit:4.12'
+}
